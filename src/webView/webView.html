@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  #wapper {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  #wapper img {
+    width: 100px;
+    height: 200px;
+  }
+
+  .flower-name {
+    font-size: 20px;
+    color: rosybrown;
+    text-align: center;
+    margin-top: 10px;
+  }
+</style>
+<body>
+  <div id="wapper">
+    <div class="flex-item">
+      <img src="../assets/xyc.png" alt="">
+      <p class="flower-name">小叶草花</p>
+    </div>
+    <div class="flex-item">
+      <img src="../assets/xhpy.png" alt="">
+      <p class="flower-name">小花盆</p>
+    </div>
+    <div class="flex-item">
+      <img src="../assets/lhc.png" alt="">
+      <p id="webViewToPlugin" class="flower-name">芦荟草</p>
+    </div>
+    <div class="flex-item">
+      <img src="../assets/rhh.png" alt="">
+      <p id="pluginTowebView" class="flower-name"></p>
+    </div>
+  </div>
+  <script>
+    let pluginTowebView = document.getElementById('pluginTowebView');
+    
+    // 监听message方法拿到插件传过来的值
+    window.addEventListener('message', (event) => {
+      
+      console.log(event.data);
+      pluginTowebView.textContent = event.data.rhh;
+    })
+    
+    //将webView的数据传回插件
+    (function() {
+      const vscode = acquireVsCodeApi();
+      let webViewToPlugin = document.getElementById('webViewToPlugin');
+      vscode.postMessage({
+        flowerName: webViewToPlugin.textContent
+      })
+    }())
+  </script>
+</body>
+</html>
